@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tabulka dat z API</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tabulka dat z API</h1>
+  
+  <h2>API 1</h2>
+  <table id="api1-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Název</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  
+  <h2>API 2</h2>
+  <table id="api2-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Titulek</th>
+        <th>Autor</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+// zde JavaScript
+
+// Funkce pro načtení dat z API a uložení do localStorage
+function loadDataFromAPI() {
+  // Načítání dat z prvního API
+  $.ajax({
+    url: 'https://api.example.com/api1', // Nahraďte tímto URL adresu prvního API
+    method: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      // Uložení dat do localStorage
+      localStorage.setItem('api1Data', JSON.stringify(response));
+
+      // Zobrazení dat v tabulce
+      var api1TableBody = $('#api1-table tbody');
+      response.forEach(function(item) {
+        var row = '<tr><td>' + item.id + '</td><td>' + item.name + '</td></tr>';
+        api1TableBody.append(row);
+      });
+    },
+    error: function(xhr, status, error) {
+      console.log('Chyba při načítání dat z prvního API:', error);
+    }
+  });
+
+  // Načítání dat z druhého API
+  $.ajax({
+    url: 'https://api.example.com/api2', // Nahraďte tímto URL adresu druhého API
+    method: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      // Uložení dat do localStorage
+      localStorage.setItem('api2Data', JSON.stringify(response));
+
+      // Zobrazení dat v tabulce
+      var api2TableBody = $('#api2-table tbody');
+      response.forEach(function(item) {
+        var row = '<tr><td>' + item.id + '</td><td>' + item.title + '</td><td>' + item.author + '</td></tr>';
+        api2TableBody.append(row);
+      });
+    },
+    error: function(xhr, status, error) {
+      console.log('Chyba při načítání dat z druhého API:', error);
+    }
+  });
+}
+
+// Funkce pro načtení dat z localStorage a zobrazení v tabulce
+function loadSavedData() {
+  var api1Data = JSON.parse(localStorage.getItem('api1Data'));
+  var api2Data = JSON.parse(localStorage.getItem('api2Data'));
+
+  if (api1Data) {
+    var api1TableBody = $('#api1-table tbody');
+    api1Data.forEach(function(item) {
+      var row = '<tr><td>' + item.id + '</td><td>' + item.name + '</td></tr>';
+      api1TableBody.append(row);
+    });
+  }
+
+  if (api2Data) {
+    var api2TableBody = $('#api2-table tbody');
+    api2Data.forEach(function(item) {
+      var row = '<tr><td>' + item.id + '</td><td>' + item
+      api2TableBody.append(row);
+    });
+  }
